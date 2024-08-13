@@ -33,7 +33,7 @@ public class ServerVerticle extends AbstractVerticle {
         // User API routes registry
         var userAPI = new UserAPI(vertx, emf);
         router.get("/users").handler(userAPI::getUsers);
-        router.get("/usersnames").handler(userAPI::getUsernames);
+        router.get("/usernames").handler(userAPI::getUsernames);
 
         vertx.createHttpServer()
                 .requestHandler(router)
