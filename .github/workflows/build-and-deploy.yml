@@ -26,9 +26,9 @@ jobs:
           - 5432:5432
         options: >-
           --health-cmd "pg_isready -U $POSTGRES_USER"
-          --health-interval 5s
-          --health-timeout 3s
-          --health-retries 2
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
     steps:
       - name: Checkout code
