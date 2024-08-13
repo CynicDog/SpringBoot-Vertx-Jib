@@ -34,7 +34,6 @@ public class PersistenceConfig {
         return jpaVendorAdapter;
     }
 
-
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
