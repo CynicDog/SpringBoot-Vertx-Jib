@@ -1,13 +1,11 @@
-package io.github.cynicdog.springvertxjibintegration.verticles.api;
+package io.github.cynicdog.springvertxjibintegration.route.api;
 
 import io.github.cynicdog.springvertxjibintegration.entity.User;
 import io.github.cynicdog.springvertxjibintegration.utils.JpaOperationUtil;
 import io.vertx.core.Vertx;
-import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 
-import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import java.util.stream.Collectors;
 

@@ -1,6 +1,6 @@
-package io.github.cynicdog.springvertxjibintegration.verticles;
+package io.github.cynicdog.springvertxjibintegration.route;
 
-import io.github.cynicdog.springvertxjibintegration.verticles.api.UserAPI;
+import io.github.cynicdog.springvertxjibintegration.route.api.UserAPI;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.ext.web.Router;
 import org.jboss.logging.Logger;

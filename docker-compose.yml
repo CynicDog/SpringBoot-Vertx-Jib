@@ -10,17 +10,16 @@ services:
       POSTGRES_PASSWORD: cynicdog
     ports:
       - "5432:5432"
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U cynicdog"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
 
   app:
     image: ginsenglee/spring-vertx-jib-app:0.0.1-SNAPSHOT
     container_name: spring_vertx_app
     ports:
       - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/spring_vertx_demo
+      SPRING_DATASOURCE_USERNAME: cynicdog
+      SPRING_DATASOURCE_PASSWORD: cynicdog
     depends_on:
-      postgres:
-        condition: service_healthy
+      - postgres
+

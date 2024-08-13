@@ -1,6 +1,6 @@
 package io.github.cynicdog.springvertxjibintegration;
 
-import io.github.cynicdog.springvertxjibintegration.verticles.ServerVerticle;
+import io.github.cynicdog.springvertxjibintegration.route.ServerVerticle;
 import io.vertx.core.Vertx;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
