@@ -6,7 +6,7 @@ import io.vertx.ext.web.Router;
 import org.jboss.logging.Logger;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.EntityManagerFactory;
+import jakarta.persistence.EntityManagerFactory;
 
 @Component
 public class ServerVerticle extends AbstractVerticle {

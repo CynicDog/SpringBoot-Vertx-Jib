@@ -1,18 +1,15 @@
 package io.github.cynicdog.springvertxjibintegration.config;
 
+import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import java.util.Properties;
-
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.Database;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 
 import javax.sql.DataSource;
-import org.springframework.boot.jdbc.DataSourceBuilder;
-
+import java.util.Properties;
 @Configuration
 public class PersistenceConfig {
 
