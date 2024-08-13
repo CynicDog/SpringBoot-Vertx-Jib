@@ -1,5 +1,6 @@
 package io.github.cynicdog.springvertxjibintegration.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,18 +11,29 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 
 import javax.sql.DataSource;
 import java.util.Properties;
+
 @Configuration
 public class PersistenceConfig {
+
+    @Value("${SPRING_DATASOURCE_URL}")
+    private String dataSourceUrl;
+
+    @Value("${SPRING_DATASOURCE_USERNAME}")
+    private String dataSourceUsername;
+
+    @Value("${SPRING_DATASOURCE_PASSWORD}")
+    private String dataSourcePassword;
 
     @Bean
     public DataSource dataSource() {
         return DataSourceBuilder.create()
-                .url("jdbc:postgresql://postgres:5432/spring_vertx_demo")
-                .username("cynicdog")
-                .password("cynicdog")
+                .url(dataSourceUrl)
+                .username(dataSourceUsername)
+                .password(dataSourcePassword)
                 .driverClassName("org.postgresql.Driver")
                 .build();
     }
+
     @Bean
     public JpaVendorAdapter jpaVendorAdapter() {
         HibernateJpaVendorAdapter jpaVendorAdapter = new HibernateJpaVendorAdapter();
