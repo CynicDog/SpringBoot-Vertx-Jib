@@ -19,13 +19,13 @@ jobs:
       postgres:
         image: postgres:latest
         env:
-          POSTGRES_DB: $POSTGRES_DB
-          POSTGRES_USER: $POSTGRES_USER
-          POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+          POSTGRES_DB: ${{ env.POSTGRES_DB }}
+          POSTGRES_USER: ${{ env.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
         ports:
           - 5432:5432
         options: >-
-          --health-cmd "pg_isready -U $POSTGRES_USER"
+          --health-cmd "pg_isready -U ${{ env.POSTGRES_USER }}"
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
@@ -53,8 +53,8 @@ jobs:
       - name: Clean and Package Application
         env:
           SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/$POSTGRES_DB
-          SPRING_DATASOURCE_USERNAME: $POSTGRES_USER
-          SPRING_DATASOURCE_PASSWORD: $POSTGRES_PASSWORD
+          SPRING_DATASOURCE_USERNAME: ${{ env.POSTGRES_USER }}
+          SPRING_DATASOURCE_PASSWORD: ${{ env.POSTGRES_PASSWORD }} 
         run: |
           mvn clean package -DskipTests
 
