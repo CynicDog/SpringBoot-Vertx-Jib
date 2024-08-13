@@ -9,6 +9,7 @@ import java.util.Properties;
 
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.vendor.Database;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 
 import javax.sql.DataSource;
@@ -26,16 +27,25 @@ public class AppConfig {
                 .driverClassName("org.postgresql.Driver")
                 .build();
     }
+    @Bean
+    public JpaVendorAdapter jpaVendorAdapter() {
+        HibernateJpaVendorAdapter jpaVendorAdapter = new HibernateJpaVendorAdapter();
+        jpaVendorAdapter.setDatabase(Database.POSTGRESQL);
+        jpaVendorAdapter.setShowSql(true);
+
+        return jpaVendorAdapter;
+    }
+
 
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory(
             DataSource dataSource) {
         LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
+
         emf.setDataSource(dataSource);
         emf.setPackagesToScan("io.github.cynicdog.springvertxjibintegration.entity");
 
-        JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-        emf.setJpaVendorAdapter(vendorAdapter);
+        emf.setJpaVendorAdapter(jpaVendorAdapter());
         emf.setJpaProperties(additionalProperties());
 
         return emf;
@@ -44,10 +54,9 @@ public class AppConfig {
     private Properties additionalProperties() {
         Properties properties = new Properties();
         properties.put("hibernate.hbm2ddl.auto", "update");
-        properties.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
-        properties.put("hibernate.show_sql", "true");
         properties.put("hibernate.format_sql", "true");
         properties.put("hibernate.use_identifier_rollback", "true");
+
         return properties;
     }
 }
