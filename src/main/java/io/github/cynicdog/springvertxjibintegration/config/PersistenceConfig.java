@@ -1,10 +1,8 @@
-package io.github.cynicdog.springvertxjibintegration;
+package io.github.cynicdog.springvertxjibintegration.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Properties;
 
 import org.springframework.orm.jpa.JpaVendorAdapter;
@@ -16,7 +14,7 @@ import javax.sql.DataSource;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 
 @Configuration
-public class AppConfig {
+public class PersistenceConfig {
 
     @Bean
     public DataSource dataSource() {
@@ -38,11 +36,10 @@ public class AppConfig {
 
 
     @Bean
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory(
-            DataSource dataSource) {
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
 
-        emf.setDataSource(dataSource);
+        emf.setDataSource(dataSource());
         emf.setPackagesToScan("io.github.cynicdog.springvertxjibintegration.entity");
 
         emf.setJpaVendorAdapter(jpaVendorAdapter());
