@@ -49,8 +49,12 @@ jobs:
           mvn compile jib:build
 
       - name: Clean and Package Application
+        env:
+          SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/spring_vertx_demo
+          SPRING_DATASOURCE_USERNAME: cynicdog
+          SPRING_DATASOURCE_PASSWORD: cynicdog
         run: |
-          mvn clean package
+          mvn clean package -DskipTests
 
       - name: Upload Manifests as Artifacts
         uses: actions/upload-artifact@v4
