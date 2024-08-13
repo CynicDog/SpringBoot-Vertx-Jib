@@ -1,32 +1,34 @@
 name: Build and Push Docker Image
 
 on:
-  # push:
-  #   branches:
-  #     - main
-  # pull_request:
-  #   branches:
-  #     - main
   workflow_dispatch:
 
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
 
+    env:  
+      POSTGRES_DB: spring_vertx_demo
+      POSTGRES_USER: cynicdog
+      POSTGRES_PASSWORD: cynicdog
+
+    # Use the Postgres Docker service for initializing the Spring Boot application during Maven packaging.
+    # This ensures that the application can connect to a PostgreSQL database for testing or setup
+    # purposes while building the Docker image.
     services:
       postgres:
         image: postgres:latest
         env:
-          POSTGRES_DB: spring_vertx_demo
-          POSTGRES_USER: cynicdog
-          POSTGRES_PASSWORD: cynicdog
+          POSTGRES_DB: ${{ env.POSTGRES_DB }}
+          POSTGRES_USER: ${{ env.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
         ports:
           - 5432:5432
         options: >-
-          --health-cmd "pg_isready -U cynicdog"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
+          --health-cmd "pg_isready -U ${{ env.POSTGRES_USER }}"
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 2
 
     steps:
       - name: Checkout code
@@ -50,9 +52,9 @@ jobs:
 
       - name: Clean and Package Application
         env:
-          SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/spring_vertx_demo
-          SPRING_DATASOURCE_USERNAME: cynicdog
-          SPRING_DATASOURCE_PASSWORD: cynicdog
+          SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/${{ env.POSTGRES_DB }}
+          SPRING_DATASOURCE_USERNAME: ${{ env.POSTGRES_USER }}
+          SPRING_DATASOURCE_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
         run: |
           mvn clean package -DskipTests
 
