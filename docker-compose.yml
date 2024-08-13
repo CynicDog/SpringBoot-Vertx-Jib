@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: spring_vertx_postgres
+    environment:
+      POSTGRES_DB: spring_vertx_demo
+      POSTGRES_USER: cynicdog
+      POSTGRES_PASSWORD: cynicdog
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U cynicdog"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  app:
+    image: ginsenglee/spring-vertx-jib-app:0.0.1-SNAPSHOT
+    container_name: spring_vertx_app
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
