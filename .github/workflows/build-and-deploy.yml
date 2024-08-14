@@ -17,9 +17,6 @@ jobs:
       POSTGRES_DB: spring_vertx_demo
       POSTGRES_USER: cynicdog
       POSTGRES_PASSWORD: cynicdog
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/${{ env.POSTGRES_DB }}
-      SPRING_DATASOURCE_USERNAME: ${{ env.POSTGRES_USER }}
-      SPRING_DATASOURCE_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
 
     services:
       postgres:
@@ -57,6 +54,10 @@ jobs:
           mvn compile jib:build
 
       - name: Clean and Package Application
+        env:
+          SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/${{ env.POSTGRES_DB }}
+          SPRING_DATASOURCE_USERNAME: ${{ env.POSTGRES_USER }}
+          SPRING_DATASOURCE_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
         run: |
           mvn clean package -DskipTests
 
