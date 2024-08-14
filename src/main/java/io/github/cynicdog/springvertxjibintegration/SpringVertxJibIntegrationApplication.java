@@ -1,5 +1,8 @@
 package io.github.cynicdog.springvertxjibintegration;
 
+import io.dekorate.kubernetes.annotation.KubernetesApplication;
+import io.dekorate.kubernetes.annotation.Port;
+import io.dekorate.kubernetes.annotation.ServiceType;
 import io.github.cynicdog.springvertxjibintegration.route.ServerVerticle;
 import io.vertx.core.Vertx;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +14,10 @@ import jakarta.annotation.PostConstruct;
 
 @EntityScan("io.github.cynicdog.springvertxjibintegration.entity")
 @SpringBootApplication
+@KubernetesApplication(
+        ports = @Port(name = "http", containerPort = 8080),
+        serviceAccount = "NodePort"
+)
 public class SpringVertxJibIntegrationApplication {
 
     @Autowired
