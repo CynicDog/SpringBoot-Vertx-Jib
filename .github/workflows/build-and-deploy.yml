@@ -12,21 +12,26 @@ on:
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
-    
-    # Use the Postgres Docker service for initializing the Spring Boot application during Maven packaging.
-    # This ensures that the application can connect to a PostgreSQL database for testing or setup
-    # purposes while building the Docker image.
+
+    env:
+      POSTGRES_DB: spring_vertx_demo
+      POSTGRES_USER: cynicdog
+      POSTGRES_PASSWORD: cynicdog
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/${{ env.POSTGRES_DB }}
+      SPRING_DATASOURCE_USERNAME: ${{ env.POSTGRES_USER }}
+      SPRING_DATASOURCE_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
+
     services:
       postgres:
         image: postgres:latest
         env:
-          POSTGRES_DB: spring_vertx_demo
-          POSTGRES_USER: cynicdog
-          POSTGRES_PASSWORD: cynicdog
+          POSTGRES_DB: ${{ env.POSTGRES_DB }}
+          POSTGRES_USER: ${{ env.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
         ports:
           - 5432:5432
         options: >-
-          --health-cmd "pg_isready -U cynicdog"
+          --health-cmd "pg_isready -U ${{ env.POSTGRES_USER }}"
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
@@ -52,10 +57,6 @@ jobs:
           mvn compile jib:build
 
       - name: Clean and Package Application
-        env:
-          SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/spring_vertx_demo
-          SPRING_DATASOURCE_USERNAME: cynicdog
-          SPRING_DATASOURCE_PASSWORD: cynicdog
         run: |
           mvn clean package -DskipTests
 
